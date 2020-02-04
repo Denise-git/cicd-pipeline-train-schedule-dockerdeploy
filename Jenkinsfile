@@ -39,8 +39,12 @@ pipeline {
                 branch 'master'
             }
             steps {
-                input 'Deploy to Production?'
+                input 'Deploy to this server?'
                 milestone(1)
+                sh "docker stop train-schedule"
+                sh "docker rm train-schedule"
+                sh "docker run --restart always --name train-schedule -p 8080:8080 -d denisemazzini/train-schedule:${env.BUILD_NUMBER}"
+                /*
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull willbla/train-schedule:${env.BUILD_NUMBER}\""
@@ -53,6 +57,7 @@ pipeline {
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker run --restart always --name train-schedule -p 8080:8080 -d willbla/train-schedule:${env.BUILD_NUMBER}\""
                     }
                 }
+                */
             }
         }
     }
