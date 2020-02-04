@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage('Greetings'){
+            steps{
+                echo "Ciao"
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Running build automation'
