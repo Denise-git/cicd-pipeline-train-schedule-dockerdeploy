@@ -1,16 +1,17 @@
 pipeline {
     agent any
+     def scmVars = checkout([
+                    $class: 'GitSCM'
+                    
+                  ])
+
     stages {
         stage('Greetings'){
             steps{
                 echo "I am on branch "
             
             // Checkout the repository and save the resulting metadata
-                  def scmVars = checkout([
-                    $class: 'GitSCM'
-                    
-                  ])
-
+                 
                   // Display the variable using scmVars
                   echo "scmVars.GIT_BRANCH"
                   echo "${scmVars.GIT_BRANCH}"}
