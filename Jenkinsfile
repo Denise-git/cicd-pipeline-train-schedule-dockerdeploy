@@ -53,7 +53,7 @@ pipeline {
                 milestone(1)
                 sh "docker stop train-schdule || true"
                 sh "docker rm train-schedule || true"
-                sh "docker run --restart always --name train-schedule -p 8080:8080 -d denisemazzini/train-schedule:${env.BUILD_NUMBER}"
+                sh "docker run --restart always --name train-schedule -p 8081:8080 -d denisemazzini/train-schedule:${env.BUILD_NUMBER}"
                 /*
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
