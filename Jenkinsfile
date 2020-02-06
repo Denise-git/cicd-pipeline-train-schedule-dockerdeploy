@@ -51,14 +51,16 @@ pipeline {
             steps {
                 input 'Deploy to this server?'
                 milestone(1)
-                try {
-                    sh "docker stop train-schedule || true"
-                    sh "docker rm train-schedule || true"
-                } catch(err){
-                    echo "Errore: $err"   
+                script {
+                    try {
+                        sh "docker stop train-schedule || true"
+                        sh "docker rm train-schedule || true"
+                    } catch(err){
+                        echo "Errore: $err"   
+                    }
+                    sh "docker run --restart always --name train-schedule -p 8081:8080 -d denisemazzini/train-schedule:${env.BUILD_NUMBER}"
                 }
-                sh "docker run --restart always --name train-schedule -p 8081:8080 -d denisemazzini/train-schedule:${env.BUILD_NUMBER}"
-                /*
+                    /*
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull willbla/train-schedule:${env.BUILD_NUMBER}\""
