@@ -1,10 +1,5 @@
 pipeline {
     agent any
-     def scmVars = checkout([
-                    $class: 'GitSCM'
-                    
-                  ])
-
     stages {
         stage('Greetings'){
             steps{
@@ -13,8 +8,8 @@ pipeline {
             // Checkout the repository and save the resulting metadata
                  
                   // Display the variable using scmVars
-                  echo "scmVars.GIT_BRANCH"
-                  echo "${scmVars.GIT_BRANCH}"}
+                 // echo "env.BRANCH_NAME"
+                  echo "${env.BRANCH_NAME}"}
         }
         stage('Build') {
             steps {
