@@ -51,9 +51,9 @@ pipeline {
             steps {
                 input 'Deploy to this server?'
                 milestone(1)
-                try{
-                sh "docker stop train-schedule || true"
-                sh "docker rm train-schedule || true"
+                try {
+                    sh "docker stop train-schedule || true"
+                    sh "docker rm train-schedule || true"
                 } catch(err){
                     echo "Errore: $err"   
                 }
